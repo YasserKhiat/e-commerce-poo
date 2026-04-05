@@ -14,6 +14,7 @@ import com.yasser.ecommerce.entity.CustomerOrder;
 import com.yasser.ecommerce.entity.OrderItem;
 import com.yasser.ecommerce.entity.Product;
 import com.yasser.ecommerce.entity.User;
+import com.yasser.ecommerce.entity.enums.OrderStatus;
 import com.yasser.ecommerce.repository.CustomerOrderRepository;
 import com.yasser.ecommerce.repository.ProductRepository;
 import com.yasser.ecommerce.repository.UserRepository;
@@ -36,18 +37,23 @@ public class CustomerOrderService {
         return customerOrderRepository.findById(id);
     }
 
+    public List<CustomerOrder> findByUser(User user) {
+        return customerOrderRepository.findByUser(user);
+    }
+
     public CustomerOrder save(CustomerOrder customerOrder) {
         return customerOrderRepository.save(customerOrder);
     }
 
     @Transactional
-    public CustomerOrder createOrder(OrderForm orderForm) {
-        User user = userRepository.findById(orderForm.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Selected user does not exist."));
+        public CustomerOrder createOrderForUser(OrderForm orderForm, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+            .orElseThrow(() -> new IllegalArgumentException("Logged in user does not exist."));
 
         CustomerOrder order = CustomerOrder.builder()
                 .date(LocalDate.now())
                 .total(BigDecimal.ZERO)
+            .status(OrderStatus.PENDING)
                 .user(user)
                 .build();
 
@@ -86,6 +92,13 @@ public class CustomerOrderService {
         }
 
         order.setTotal(total);
+        return customerOrderRepository.save(order);
+    }
+
+    public CustomerOrder updateStatus(Long orderId, OrderStatus status) {
+        CustomerOrder order = customerOrderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found."));
+        order.setStatus(status);
         return customerOrderRepository.save(order);
     }
 

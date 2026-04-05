@@ -1,11 +1,12 @@
 package com.yasser.ecommerce.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -20,21 +21,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping
 @RequiredArgsConstructor
 public class OrderController {
 
     private final CustomerOrderService customerOrderService;
-    private final UserService userService;
     private final ProductService productService;
+    private final UserService userService;
 
-    @GetMapping
-    public String listOrders(Model model) {
-        model.addAttribute("orders", customerOrderService.findAll());
-        return "orders";
-    }
-
-    @GetMapping("/new")
+    @GetMapping("/orders/new")
     public String showCreateForm(Model model) {
         OrderForm orderForm = new OrderForm();
         productService.findAll().forEach(product -> {
@@ -47,34 +42,33 @@ public class OrderController {
         });
 
         model.addAttribute("orderForm", orderForm);
-        model.addAttribute("users", userService.findAll());
         return "order-form";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/orders/save")
     public String saveOrder(@Valid @ModelAttribute("orderForm") OrderForm orderForm,
                             BindingResult bindingResult,
                             Model model,
+                            Principal principal,
                             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("users", userService.findAll());
             return "order-form";
         }
 
         try {
-            customerOrderService.createOrder(orderForm);
+            customerOrderService.createOrderForUser(orderForm, principal.getName());
             redirectAttributes.addFlashAttribute("successMessage", "Order created successfully.");
-            return "redirect:/orders";
+            return "redirect:/my-orders";
         } catch (IllegalArgumentException ex) {
-            model.addAttribute("users", userService.findAll());
             model.addAttribute("errorMessage", ex.getMessage());
             return "order-form";
         }
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteOrder(@PathVariable Long id) {
-        customerOrderService.deleteById(id);
-        return "redirect:/orders";
+    @GetMapping("/my-orders")
+    public String myOrders(Model model, Principal principal) {
+        var user = userService.getByEmailOrThrow(principal.getName());
+        model.addAttribute("orders", customerOrderService.findByUser(user));
+        return "my-orders";
     }
 }
