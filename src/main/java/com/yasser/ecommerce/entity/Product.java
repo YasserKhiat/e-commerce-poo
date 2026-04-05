@@ -46,6 +46,8 @@ public class Product {
     @PositiveOrZero(message = "Stock must be 0 or more")
     private Integer stock;
 
+    private String imageName;
+
     @OneToMany(mappedBy = "product")
     @Builder.Default
     @ToString.Exclude

@@ -2,6 +2,7 @@ package com.yasser.ecommerce.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Comparator;
 
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService {
 
+    public static final String DEFAULT_IMAGE = "default-product.svg";
+
     private final ProductRepository productRepository;
 
     public List<Product> findAll() {
-        return productRepository.findAll();
+        return productRepository.findAll().stream()
+                .sorted(Comparator.comparing(Product::getId))
+                .toList();
     }
 
     public Optional<Product> findById(Long id) {
@@ -25,6 +30,9 @@ public class ProductService {
     }
 
     public Product save(Product product) {
+        if (product.getImageName() == null || product.getImageName().isBlank()) {
+            product.setImageName(DEFAULT_IMAGE);
+        }
         return productRepository.save(product);
     }
 
