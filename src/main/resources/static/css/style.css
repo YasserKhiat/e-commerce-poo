@@ -1,37 +1,50 @@
 :root {
-    --bg-color: #f3f6fb;
-    --card-bg: #ffffff;
-    --text-main: #20293a;
-    --accent: #1f6feb;
+    --bg-main: #f6f8fc;
+    --ink: #1f2937;
+    --primary: #0f766e;
+    --primary-2: #14b8a6;
 }
 
-body {
-    background: radial-gradient(circle at top right, #dbeafe 0%, var(--bg-color) 35%, #eef2ff 100%);
-    color: var(--text-main);
+body.app-bg {
     min-height: 100vh;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 15% 10%, rgba(20, 184, 166, 0.18), transparent 35%),
+        radial-gradient(circle at 90% 5%, rgba(15, 118, 110, 0.16), transparent 25%),
+        var(--bg-main);
 }
 
-.page-title {
-    font-weight: 700;
-    letter-spacing: 0.2px;
+.hero-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f2fffc 100%);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
 }
 
-.hero {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 12px 32px rgba(31, 41, 55, 0.08);
-}
-
-.stat-card {
-    border-radius: 14px;
+.mini-stat {
+    background: #ffffff;
 }
 
 .btn-primary {
-    background-color: var(--accent);
-    border-color: var(--accent);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
-.card {
-    border-radius: 14px;
+.btn-primary:hover {
+    background-color: var(--primary-2);
+    border-color: var(--primary-2);
+}
+
+.product-card-image {
+    height: 220px;
+    object-fit: cover;
+}
+
+.product-detail-image {
+    max-height: 420px;
+    object-fit: cover;
+}
+
+.product-thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
 }

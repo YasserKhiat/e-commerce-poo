@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-label="Default product image">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d1fae5"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" fill="url(#g)"/>
+  <g fill="#0f172a" opacity="0.6">
+    <rect x="210" y="120" width="220" height="160" rx="18"/>
+    <circle cx="275" cy="185" r="18" fill="#ffffff"/>
+    <path d="M 250 245 L 305 195 L 350 235 L 385 210 L 420 245 Z" fill="#ffffff"/>
+  </g>
+  <text x="50%" y="86%" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#0f172a">No Product Image</text>
+</svg>
