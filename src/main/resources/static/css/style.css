@@ -1,45 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
 :root {
-    --bg-main: #f6f8fc;
-    --ink: #1f2937;
+    --bg-main: #eef3f8;
+    --surface: #ffffff;
+    --surface-soft: #f7fbff;
+    --ink: #152238;
+    --muted: #5f6f82;
     --primary: #0f766e;
-    --primary-2: #14b8a6;
+    --primary-2: #10b981;
+    --ring: rgba(16, 185, 129, 0.24);
+    --shadow-soft: 0 8px 30px rgba(16, 30, 54, 0.08);
+    --shadow-hover: 0 14px 40px rgba(16, 30, 54, 0.14);
+    --radius-xl: 1.15rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body.app-bg {
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
     min-height: 100vh;
     color: var(--ink);
     background:
-        radial-gradient(circle at 15% 10%, rgba(20, 184, 166, 0.18), transparent 35%),
-        radial-gradient(circle at 90% 5%, rgba(15, 118, 110, 0.16), transparent 25%),
-        var(--bg-main);
+        radial-gradient(circle at 8% 0%, rgba(16, 185, 129, 0.18), transparent 33%),
+        radial-gradient(circle at 90% 6%, rgba(15, 118, 110, 0.2), transparent 30%),
+        linear-gradient(180deg, #f4fbff 0%, var(--bg-main) 75%);
+}
+
+.container {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-card {
-    background: linear-gradient(145deg, #ffffff 0%, #f2fffc 100%);
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    background: linear-gradient(145deg, #ffffff 0%, #f0fbf8 65%, #edf8ff 100%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 24px 55px rgba(16, 30, 54, 0.12);
+    overflow: hidden;
+}
+
+.hero-card::after {
+    content: '';
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 999px;
+    right: -70px;
+    top: -85px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent 65%);
+    pointer-events: none;
+}
+
+.hero-kicker {
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    color: var(--primary);
+    font-weight: 800;
 }
 
 .mini-stat {
-    background: #ffffff;
+    border: 1px solid rgba(15, 118, 110, 0.08);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(6px);
+}
+
+.premium-navbar {
+    background: rgba(11, 20, 33, 0.78) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.premium-navbar .navbar-brand {
+    letter-spacing: 0.02em;
+}
+
+.premium-navbar .nav-link {
+    color: rgba(243, 248, 255, 0.84) !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.premium-navbar .nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.premium-footer {
+    border-top: 1px solid rgba(15, 35, 68, 0.08);
+    background: linear-gradient(180deg, rgba(246, 251, 255, 0.9), rgba(240, 246, 255, 0.95));
+}
+
+.btn {
+    border-radius: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
 }
 
 .btn-primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    border: none;
+    box-shadow: 0 8px 18px rgba(15, 118, 110, 0.22);
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-2);
-    border-color: var(--primary-2);
+    filter: brightness(1.04);
+    box-shadow: 0 12px 22px rgba(15, 118, 110, 0.28);
+}
+
+.btn-outline-dark,
+.btn-outline-secondary,
+.btn-outline-light {
+    border-width: 1px;
+}
+
+.card {
+    border-radius: var(--radius-xl) !important;
+    border: 1px solid rgba(20, 30, 50, 0.06) !important;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.table {
+    --bs-table-bg: transparent;
+}
+
+.table thead th {
+    border-bottom: 1px solid rgba(33, 49, 76, 0.15);
+    color: #25354d;
+    font-weight: 700;
+}
+
+.table tbody td {
+    border-bottom: 1px solid rgba(33, 49, 76, 0.08);
+}
+
+.form-control,
+.form-select,
+textarea.form-control {
+    border-radius: 0.9rem;
+    border: 1px solid rgba(45, 63, 92, 0.2);
+    background: #fbfdff;
+    padding: 0.72rem 0.9rem;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    border-color: rgba(16, 185, 129, 0.42);
+    box-shadow: 0 0 0 0.25rem var(--ring);
+}
+
+.alert {
+    border: none;
+    border-radius: 0.9rem;
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.08);
 }
 
 .product-card-image {
-    height: 220px;
+    height: 235px;
     object-fit: cover;
 }
 
 .product-detail-image {
-    max-height: 420px;
+    max-height: 480px;
     object-fit: cover;
 }
 
@@ -47,4 +184,37 @@ body.app-bg {
     width: 72px;
     height: 72px;
     object-fit: cover;
+}
+
+.premium-product-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge-pill {
+    border-radius: 999px;
+    padding: 0.42rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.74rem;
+}
+
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+[data-reveal].is-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+@media (max-width: 991px) {
+    .hero-card {
+        padding: 1.5rem !important;
+    }
+
+    .product-card-image {
+        height: 205px;
+    }
 }
