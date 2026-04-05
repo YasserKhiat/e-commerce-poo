@@ -1,0 +1,37 @@
+:root {
+    --bg-color: #f3f6fb;
+    --card-bg: #ffffff;
+    --text-main: #20293a;
+    --accent: #1f6feb;
+}
+
+body {
+    background: radial-gradient(circle at top right, #dbeafe 0%, var(--bg-color) 35%, #eef2ff 100%);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+.page-title {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.hero {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 32px rgba(31, 41, 55, 0.08);
+}
+
+.stat-card {
+    border-radius: 14px;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+.card {
+    border-radius: 14px;
+}
