@@ -17,6 +17,10 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
             <form th:object="${orderForm}" th:action="@{/orders/save}" method="post" class="row g-3">
+                <div class="col-12" th:if="${errorMessage}">
+                    <div class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+                </div>
+
                 <div class="col-md-8">
                     <label for="userId" class="form-label">User</label>
                     <select id="userId" class="form-select" th:field="*{userId}">
@@ -24,6 +28,38 @@
                         <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name + ' (' + user.email + ')'}"></option>
                     </select>
                     <div class="text-danger small" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+                </div>
+
+                <div class="col-12">
+                    <h2 class="h5 mb-3">Products and Quantities</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Available Stock</th>
+                                <th>Quantity to Order</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item, iterStat : *{items}">
+                                <td>
+                                    <span th:text="${item.productName}"></span>
+                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].productId}">
+                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].productName}">
+                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].availableStock}">
+                                </td>
+                                <td th:text="${item.availableStock}"></td>
+                                <td>
+                                    <input type="number"
+                                           min="0"
+                                           class="form-control"
+                                           th:field="*{items[__${iterStat.index}__].quantity}">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-12">

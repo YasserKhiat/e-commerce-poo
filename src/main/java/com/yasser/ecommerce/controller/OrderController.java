@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yasser.ecommerce.controller.form.OrderItemForm;
 import com.yasser.ecommerce.controller.form.OrderForm;
 import com.yasser.ecommerce.service.CustomerOrderService;
+import com.yasser.ecommerce.service.ProductService;
 import com.yasser.ecommerce.service.UserService;
 
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ public class OrderController {
 
     private final CustomerOrderService customerOrderService;
     private final UserService userService;
+    private final ProductService productService;
 
     @GetMapping
     public String listOrders(Model model) {
@@ -33,7 +36,17 @@ public class OrderController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("orderForm", new OrderForm());
+        OrderForm orderForm = new OrderForm();
+        productService.findAll().forEach(product -> {
+            OrderItemForm item = new OrderItemForm();
+            item.setProductId(product.getId());
+            item.setProductName(product.getName());
+            item.setAvailableStock(product.getStock());
+            item.setQuantity(0);
+            orderForm.getItems().add(item);
+        });
+
+        model.addAttribute("orderForm", orderForm);
         model.addAttribute("users", userService.findAll());
         return "order-form";
     }
@@ -48,9 +61,15 @@ public class OrderController {
             return "order-form";
         }
 
-        customerOrderService.createSimpleOrder(orderForm.getUserId());
-        redirectAttributes.addFlashAttribute("successMessage", "Order created successfully.");
-        return "redirect:/orders";
+        try {
+            customerOrderService.createOrder(orderForm);
+            redirectAttributes.addFlashAttribute("successMessage", "Order created successfully.");
+            return "redirect:/orders";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("users", userService.findAll());
+            model.addAttribute("errorMessage", ex.getMessage());
+            return "order-form";
+        }
     }
 
     @GetMapping("/delete/{id}")
