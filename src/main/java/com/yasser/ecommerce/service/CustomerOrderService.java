@@ -38,7 +38,7 @@ public class CustomerOrderService {
     }
 
     public List<CustomerOrder> findByUser(User user) {
-        return customerOrderRepository.findByUser(user);
+        return customerOrderRepository.findByUserWithItems(user);
     }
 
     public CustomerOrder save(CustomerOrder customerOrder) {
