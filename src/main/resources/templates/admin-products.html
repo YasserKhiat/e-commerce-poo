@@ -16,6 +16,9 @@
         <a class="btn btn-primary" th:href="@{/admin/products/new}">Add Product</a>
     </div>
 
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body">
             <div class="table-responsive">

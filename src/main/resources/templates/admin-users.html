@@ -13,6 +13,9 @@
 <div class="container py-4">
     <h1 class="h3 fw-bold mb-3">User Management</h1>
 
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body">
             <div class="table-responsive">

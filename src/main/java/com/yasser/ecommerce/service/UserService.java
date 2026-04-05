@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yasser.ecommerce.controller.dto.RegistrationForm;
 import com.yasser.ecommerce.entity.User;
 import com.yasser.ecommerce.entity.enums.Role;
+import com.yasser.ecommerce.repository.CustomerOrderRepository;
 import com.yasser.ecommerce.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CustomerOrderRepository customerOrderRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
@@ -91,6 +93,13 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        if (customerOrderRepository.existsByUser(user)) {
+            throw new IllegalStateException("Cannot delete this user because they already have orders.");
+        }
+
         userRepository.deleteById(id);
     }
 }

@@ -11,6 +11,7 @@ import com.yasser.ecommerce.entity.User;
 
 public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Long> {
 	List<CustomerOrder> findByUser(User user);
+	boolean existsByUser(User user);
 
 	@Query("select distinct o from CustomerOrder o left join fetch o.orderItems where o.user = :user order by o.date desc, o.id desc")
 	List<CustomerOrder> findByUserWithItems(@Param("user") User user);
